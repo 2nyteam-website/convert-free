@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface ConvertedPage { name: string; url: string; page: number; }
 
 export default function PdfToImagePage() {
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<ConvertedPage[]>([]);
   const [converting, setConverting] = useState(false);
@@ -16,7 +17,7 @@ export default function PdfToImagePage() {
   const [dragOver, setDragOver] = useState(false);
   const [pageCount, setPageCount] = useState(0);
 
-  
+
   useEffect(() => {
     return () => {
       pages.forEach((f) => { if (f.url) URL.revokeObjectURL(f.url); });
@@ -27,6 +28,10 @@ const handleFile = useCallback((files: FileList | null) => {
     if (!files || files.length === 0) return;
     const f = files[0];
     if (!/\.pdf$/i.test(f.name)) return;
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 50MB for browser-based conversion.");
+      return;
+    }
     setFile(f);
     setPages([]);
   }, []);

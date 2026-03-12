@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Mp4ToGifPage() {
+  const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
   const [file, setFile] = useState<File | null>(null);
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const [converting, setConverting] = useState(false);
@@ -24,6 +25,10 @@ export default function Mp4ToGifPage() {
     if (!files || files.length === 0) return;
     const f = files[0];
     if (!/\.(mp4|webm|mov)$/i.test(f.name)) return;
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 100MB for browser-based conversion.");
+      return;
+    }
     setFile(f);
     setGifUrl(null);
     setProgress("");
@@ -59,6 +64,7 @@ export default function Mp4ToGifPage() {
       const blob = new Blob([new Uint8Array(data as Uint8Array)], { type: "image/gif" });
       setGifUrl(URL.createObjectURL(blob));
       setProgress("Done!");
+      ffmpeg.terminate();
     } catch (err) {
       setProgress("Error: conversion failed. Try a shorter video or different format.");
       console.error(err);
@@ -130,7 +136,7 @@ export default function Mp4ToGifPage() {
       {file && (
         <div className="flex items-center gap-4">
           <Button onClick={convert} disabled={converting}>{converting ? "Converting..." : "Convert to GIF"}</Button>
-          {progress && <span className="text-sm text-muted-foreground">{progress}</span>}
+          {progress && <span className="text-sm text-muted-foreground" aria-live="polite">{progress}</span>}
         </div>
       )}
 

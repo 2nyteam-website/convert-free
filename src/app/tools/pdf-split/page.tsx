@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function PdfSplitPage() {
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [pageRange, setPageRange] = useState("");
@@ -13,7 +14,7 @@ export default function PdfSplitPage() {
   const [splitting, setSplitting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
 
-  
+
   useEffect(() => {
     return () => {
       splitUrls.forEach((f) => { if (f.url) URL.revokeObjectURL(f.url); });
@@ -24,6 +25,10 @@ const handleFile = useCallback(async (files: FileList | null) => {
     if (!files || files.length === 0) return;
     const f = files[0];
     if (!/\.pdf$/i.test(f.name)) return;
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 50MB for browser-based conversion.");
+      return;
+    }
     setFile(f);
     setSplitUrls([]);
     const { PDFDocument } = await import("pdf-lib");

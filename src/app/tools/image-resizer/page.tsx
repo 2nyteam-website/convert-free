@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface ResizedFile { name: string; url: string; size: number; width: number; height: number; }
 
 export default function ImageResizerPage() {
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
   const [file, setFile] = useState<File | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
   const [targetWidth, setTargetWidth] = useState(800);
@@ -22,6 +23,10 @@ export default function ImageResizerPage() {
     if (!newFiles || newFiles.length === 0) return;
     const f = newFiles[0];
     if (!/\.(jpe?g|png|webp)$/i.test(f.name)) return;
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 20MB for browser-based conversion.");
+      return;
+    }
     setFile(f);
     setResized(null);
     const img = new Image();

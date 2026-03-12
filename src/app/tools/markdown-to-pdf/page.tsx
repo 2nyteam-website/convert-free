@@ -36,6 +36,7 @@ function hello() {
 `;
 
 export default function MarkdownToPdfPage() {
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const [markdown, setMarkdown] = useState(SAMPLE_MD);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [converting, setConverting] = useState(false);
@@ -52,6 +53,10 @@ export default function MarkdownToPdfPage() {
     if (!files || files.length === 0) return;
     const f = files[0];
     if (!/\.(md|markdown|txt)$/i.test(f.name)) return;
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 10MB for browser-based conversion.");
+      return;
+    }
     setFileName(f.name.replace(/\.(md|markdown|txt)$/i, ""));
     const reader = new FileReader();
     reader.onload = (e) => {

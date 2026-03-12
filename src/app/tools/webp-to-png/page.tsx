@@ -9,12 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface ConvertedFile { name: string; url: string; size: number; }
 
 export default function WebpToPngPage() {
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
   const [files, setFiles] = useState<File[]>([]);
   const [converted, setConverted] = useState<ConvertedFile[]>([]);
   const [converting, setConverting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
 
-  
+
   useEffect(() => {
     return () => {
       converted.forEach((f) => { if (f.url) URL.revokeObjectURL(f.url); });
@@ -23,8 +24,9 @@ export default function WebpToPngPage() {
 
 const handleFiles = useCallback((newFiles: FileList | null) => {
     if (!newFiles) return;
-    const filtered = Array.from(newFiles).filter((f) => /\.webp$/i.test(f.name));
-    setFiles((prev) => [...prev, ...filtered]);
+    const valid = Array.from(newFiles).filter((f) => /\.webp$/i.test(f.name) && f.size <= MAX_FILE_SIZE);
+    if (valid.length < newFiles.length) alert("Some files exceeded 20MB limit and were skipped.");
+    setFiles((prev) => [...prev, ...valid]);
     setConverted([]);
   }, []);
 

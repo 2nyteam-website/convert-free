@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,13 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface ConvertedFile { name: string; url: string; size: number; }
 
 export default function SvgToPngPage() {
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
   const [files, setFiles] = useState<File[]>([]);
   const [converted, setConverted] = useState<ConvertedFile[]>([]);
   const [converting, setConverting] = useState(false);
   const [scale, setScale] = useState(2);
   const [dragOver, setDragOver] = useState(false);
 
-  
+
   useEffect(() => {
     return () => {
       converted.forEach((f) => { if (f.url) URL.revokeObjectURL(f.url); });
@@ -24,7 +26,9 @@ export default function SvgToPngPage() {
 
 const handleFiles = useCallback((newFiles: FileList | null) => {
     if (!newFiles) return;
-    setFiles((prev) => [...prev, ...Array.from(newFiles).filter((f) => /\.svg$/i.test(f.name))]);
+    const valid = Array.from(newFiles).filter((f) => /\.svg$/i.test(f.name) && f.size <= MAX_FILE_SIZE);
+    if (valid.length < newFiles.length) alert("Some files exceeded 20MB limit and were skipped.");
+    setFiles((prev) => [...prev, ...valid]);
     setConverted([]);
   }, []);
 
@@ -33,7 +37,8 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
     setConverting(true);
     const results: ConvertedFile[] = [];
     for (const file of files) {
-      const text = await file.text();
+      const rawText = await file.text();
+      const text = DOMPurify.sanitize(rawText, { USE_PROFILES: { svg: true, svgFilters: true } });
       const blob = new Blob([text], { type: "image/svg+xml" });
       const url = URL.createObjectURL(blob);
       const img = new Image();

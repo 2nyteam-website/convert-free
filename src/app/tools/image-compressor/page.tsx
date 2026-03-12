@@ -14,13 +14,14 @@ interface CompressedFile {
 }
 
 export default function ImageCompressorPage() {
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
   const [files, setFiles] = useState<File[]>([]);
   const [compressed, setCompressed] = useState<CompressedFile[]>([]);
   const [compressing, setCompressing] = useState(false);
   const [quality, setQuality] = useState(0.8);
   const [dragOver, setDragOver] = useState(false);
 
-  
+
   useEffect(() => {
     return () => {
       compressed.forEach((f) => { if (f.url) URL.revokeObjectURL(f.url); });
@@ -29,10 +30,11 @@ export default function ImageCompressorPage() {
 
 const handleFiles = useCallback((newFiles: FileList | null) => {
     if (!newFiles) return;
-    const imgFiles = Array.from(newFiles).filter((f) =>
-      /\.(jpe?g|png|webp)$/i.test(f.name)
+    const valid = Array.from(newFiles).filter((f) =>
+      /\.(jpe?g|png|webp)$/i.test(f.name) && f.size <= MAX_FILE_SIZE
     );
-    setFiles((prev) => [...prev, ...imgFiles]);
+    if (valid.length < newFiles.length) alert("Some files exceeded 20MB limit and were skipped.");
+    setFiles((prev) => [...prev, ...valid]);
     setCompressed([]);
   }, []);
 

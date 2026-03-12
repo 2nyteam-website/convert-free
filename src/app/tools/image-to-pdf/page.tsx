@@ -7,12 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ImageToPdfPage() {
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
   const [files, setFiles] = useState<File[]>([]);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [converting, setConverting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
 
-  
+
   useEffect(() => {
     return () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -21,8 +22,9 @@ export default function ImageToPdfPage() {
 
 const handleFiles = useCallback((newFiles: FileList | null) => {
     if (!newFiles) return;
-    const imgFiles = Array.from(newFiles).filter((f) => /\.(jpe?g|png|webp)$/i.test(f.name));
-    setFiles((prev) => [...prev, ...imgFiles]);
+    const valid = Array.from(newFiles).filter((f) => /\.(jpe?g|png|webp)$/i.test(f.name) && f.size <= MAX_FILE_SIZE);
+    if (valid.length < newFiles.length) alert("Some files exceeded 50MB limit and were skipped.");
+    setFiles((prev) => [...prev, ...valid]);
     setPdfUrl(null);
   }, []);
 

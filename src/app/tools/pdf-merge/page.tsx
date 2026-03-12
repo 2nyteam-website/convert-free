@@ -6,12 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function PdfMergePage() {
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
   const [files, setFiles] = useState<File[]>([]);
   const [mergedUrl, setMergedUrl] = useState<string | null>(null);
   const [merging, setMerging] = useState(false);
   const [dragOver, setDragOver] = useState(false);
 
-  
+
   useEffect(() => {
     return () => {
       if (mergedUrl) URL.revokeObjectURL(mergedUrl);
@@ -20,7 +21,9 @@ export default function PdfMergePage() {
 
 const handleFiles = useCallback((newFiles: FileList | null) => {
     if (!newFiles) return;
-    setFiles((prev) => [...prev, ...Array.from(newFiles).filter((f) => /\.pdf$/i.test(f.name))]);
+    const valid = Array.from(newFiles).filter((f) => /\.pdf$/i.test(f.name) && f.size <= MAX_FILE_SIZE);
+    if (valid.length < newFiles.length) alert("Some files exceeded 50MB limit and were skipped.");
+    setFiles((prev) => [...prev, ...valid]);
     setMergedUrl(null);
   }, []);
 

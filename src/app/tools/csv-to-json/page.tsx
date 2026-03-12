@@ -59,6 +59,7 @@ Charlie,35,London,charlie@example.com
 Diana,28,"Los Angeles",diana@example.com`;
 
 export default function CsvToJsonPage() {
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
@@ -93,9 +94,14 @@ export default function CsvToJsonPage() {
 
   const handleFileUpload = (files: FileList | null) => {
     if (!files || files.length === 0) return;
+    const f = files[0];
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 10MB for browser-based conversion.");
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (e) => { setInput(e.target?.result as string); };
-    reader.readAsText(files[0]);
+    reader.readAsText(f);
   };
 
   return (

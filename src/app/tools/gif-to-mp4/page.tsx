@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function GifToMp4Page() {
+  const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
   const [file, setFile] = useState<File | null>(null);
   const [mp4Url, setMp4Url] = useState<string | null>(null);
   const [converting, setConverting] = useState(false);
@@ -13,7 +14,7 @@ export default function GifToMp4Page() {
   const [progress, setProgress] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  
+
   useEffect(() => {
     return () => {
       if (mp4Url) URL.revokeObjectURL(mp4Url);
@@ -24,6 +25,10 @@ const handleFile = useCallback((files: FileList | null) => {
     if (!files || files.length === 0) return;
     const f = files[0];
     if (!/\.gif$/i.test(f.name)) return;
+    if (f.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 100MB for browser-based conversion.");
+      return;
+    }
     setFile(f);
     setMp4Url(null);
     setProgress("");
@@ -59,6 +64,7 @@ const handleFile = useCallback((files: FileList | null) => {
       const blob = new Blob([new Uint8Array(data as Uint8Array)], { type: "video/mp4" });
       setMp4Url(URL.createObjectURL(blob));
       setProgress("Done!");
+      ffmpeg.terminate();
     } catch (err) {
       setProgress("Error: conversion failed. Try a different GIF.");
       console.error(err);
@@ -110,7 +116,7 @@ const handleFile = useCallback((files: FileList | null) => {
       {file && (
         <div className="flex items-center gap-4">
           <Button onClick={convert} disabled={converting}>{converting ? "Converting..." : "Convert to MP4"}</Button>
-          {progress && <span className="text-sm text-muted-foreground">{progress}</span>}
+          {progress && <span className="text-sm text-muted-foreground" aria-live="polite">{progress}</span>}
         </div>
       )}
 
