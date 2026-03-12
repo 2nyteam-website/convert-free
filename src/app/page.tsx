@@ -1,65 +1,121 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const tools = [
+  // Image Converters
+  { name: "JPG to PNG", description: "Convert JPG/JPEG images to PNG format with transparency support.", href: "/tools/jpg-to-png", icon: "🖼️", tags: ["Image", "Convert"] },
+  { name: "PNG to JPG", description: "Convert PNG images to JPG format with adjustable quality.", href: "/tools/png-to-jpg", icon: "🖼️", tags: ["Image", "Convert"] },
+  { name: "WebP to PNG", description: "Convert WebP images to widely-supported PNG format.", href: "/tools/webp-to-png", icon: "🖼️", tags: ["Image", "Convert"] },
+  { name: "PNG to WebP", description: "Convert PNG images to WebP for smaller file sizes.", href: "/tools/png-to-webp", icon: "🖼️", tags: ["Image", "Convert"] },
+  { name: "SVG to PNG", description: "Convert vector SVG files to raster PNG images.", href: "/tools/svg-to-png", icon: "🖼️", tags: ["Image", "Convert"] },
+  { name: "HEIC to JPG", description: "Convert iPhone HEIC photos to universal JPG format.", href: "/tools/heic-to-jpg", icon: "📱", tags: ["Image", "Convert"] },
+  { name: "Image Resizer", description: "Resize images to any dimension. Supports JPG, PNG, WebP.", href: "/tools/image-resizer", icon: "📐", tags: ["Image", "Edit"] },
+  { name: "Image Compressor", description: "Compress images to reduce file size while keeping quality.", href: "/tools/image-compressor", icon: "📦", tags: ["Image", "Optimize"] },
+
+  // PDF Tools
+  { name: "PDF to Image", description: "Convert PDF pages to PNG or JPG images.", href: "/tools/pdf-to-image", icon: "📄", tags: ["PDF", "Convert"] },
+  { name: "Image to PDF", description: "Combine images into a single PDF document.", href: "/tools/image-to-pdf", icon: "📄", tags: ["PDF", "Convert"] },
+  { name: "PDF Merge", description: "Merge multiple PDF files into one document.", href: "/tools/pdf-merge", icon: "📄", tags: ["PDF", "Edit"] },
+  { name: "PDF Split", description: "Split a PDF into separate pages or sections.", href: "/tools/pdf-split", icon: "📄", tags: ["PDF", "Edit"] },
+
+  // Other Converters
+  { name: "GIF to MP4", description: "Convert GIF animations to MP4 video for smaller file size.", href: "/tools/gif-to-mp4", icon: "🎬", tags: ["Video", "Convert"] },
+  { name: "MP4 to GIF", description: "Convert MP4 videos to GIF animations. Adjustable FPS and width.", href: "/tools/mp4-to-gif", icon: "🎬", tags: ["Video", "Convert"] },
+  { name: "CSV to JSON", description: "Convert CSV spreadsheet data to JSON format.", href: "/tools/csv-to-json", icon: "📊", tags: ["Data", "Convert"] },
+  { name: "Markdown to PDF", description: "Convert Markdown documents to beautifully formatted PDFs.", href: "/tools/markdown-to-pdf", icon: "📝", tags: ["Document", "Convert"] },
+];
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "ConvertFree",
+    url: "https://www.convertfree.cc",
+    description: "Free online file converter. 100% browser-based, no upload to servers.",
+  };
+
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: tools.map((tool, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: tool.name,
+      url: `https://www.convertfree.cc${tool.href}`,
+    })),
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }}
+      />
+
+      {/* Hero */}
+      <section className="text-center py-8">
+        <h1 className="text-4xl font-bold tracking-tight">
+          Free Online File Converter
+        </h1>
+        <p className="text-muted-foreground mt-3 max-w-2xl mx-auto text-lg">
+          Convert images, PDFs, and files instantly in your browser.
+          100% free, no sign-up, no data sent to servers.
+        </p>
+      </section>
+
+      {/* Tool Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {tools.map((tool) => (
+          <Link
+            key={tool.href}
+            href={tool.href}
+            className="group rounded-lg border border-border bg-card p-5 hover:border-primary/50 hover:shadow-md transition-all"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">{tool.icon}</span>
+              <div className="flex-1 min-w-0">
+                <h2 className="font-semibold group-hover:text-primary transition-colors">
+                  {tool.name}
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                  {tool.description}
+                </p>
+                <div className="flex gap-1.5 mt-2">
+                  {tool.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </section>
+
+      {/* Trust Section */}
+      <section className="text-center py-8 border-t">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div>
+            <p className="text-2xl font-bold text-primary">{tools.length}</p>
+            <p className="text-sm text-muted-foreground">Free Tools</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-primary">100%</p>
+            <p className="text-sm text-muted-foreground">Browser-based</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-primary">0</p>
+            <p className="text-sm text-muted-foreground">Files Uploaded to Server</p>
+          </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }
