@@ -33,6 +33,7 @@ const categories = [
       { name: "MP4 to GIF", href: "/tools/mp4-to-gif" },
       { name: "CSV to JSON", href: "/tools/csv-to-json" },
       { name: "Markdown to PDF", href: "/tools/markdown-to-pdf" },
+      { name: "QR Code Generator", href: "/tools/qr-code-generator" },
     ],
   },
 ];

@@ -28,6 +28,7 @@ const tools = [
     { name: "MP4 to GIF", description: "Convert MP4 videos to GIF animations.", href: "/tools/mp4-to-gif" },
     { name: "CSV to JSON", description: "Convert CSV data to JSON format.", href: "/tools/csv-to-json" },
     { name: "Markdown to PDF", description: "Convert Markdown to formatted PDF.", href: "/tools/markdown-to-pdf" },
+    { name: "QR Code Generator", description: "Generate QR codes for URLs, text, Wi-Fi, and email.", href: "/tools/qr-code-generator" },
   ]},
 ];
 

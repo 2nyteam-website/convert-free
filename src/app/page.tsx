@@ -22,6 +22,7 @@ const tools = [
   { name: "MP4 to GIF", description: "Convert MP4 videos to GIF animations. Adjustable FPS and width.", href: "/tools/mp4-to-gif", icon: "🎬", tags: ["Video", "Convert"] },
   { name: "CSV to JSON", description: "Convert CSV spreadsheet data to JSON format.", href: "/tools/csv-to-json", icon: "📊", tags: ["Data", "Convert"] },
   { name: "Markdown to PDF", description: "Convert Markdown documents to beautifully formatted PDFs.", href: "/tools/markdown-to-pdf", icon: "📝", tags: ["Document", "Convert"] },
+  { name: "QR Code Generator", description: "Generate QR codes for URLs, text, Wi-Fi, and email. Download PNG or SVG.", href: "/tools/qr-code-generator", icon: "📱", tags: ["Generator", "QR Code"] },
 ];
 
 export default function Home() {

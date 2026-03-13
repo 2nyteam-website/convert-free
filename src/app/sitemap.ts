@@ -6,7 +6,7 @@ const tools = [
   "jpg-to-png", "png-to-jpg", "webp-to-png", "png-to-webp", "svg-to-png",
   "heic-to-jpg", "image-resizer", "image-compressor", "pdf-to-image",
   "image-to-pdf", "pdf-merge", "pdf-split", "gif-to-mp4", "mp4-to-gif",
-  "csv-to-json", "markdown-to-pdf",
+  "csv-to-json", "markdown-to-pdf", "qr-code-generator",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
