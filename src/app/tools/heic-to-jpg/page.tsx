@@ -101,14 +101,14 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
       </CardContent></Card>
 
       <Card><CardContent className="p-8">
-        <div className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
+        <label className={`block border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
           onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}>
           <p className="text-lg font-medium">Drag & drop HEIC files here</p>
           <p className="text-sm text-muted-foreground mt-1">iPhone photos (.heic, .heif)</p>
-          <label className="cursor-pointer"><Button variant="secondary" className="mt-4" type="button">Select Files</Button>
-            <input type="file" accept=".heic,.heif" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} /></label>
-        </div>
+          <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Select Files</span>
+          <input type="file" accept=".heic,.heif" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} />
+        </label>
       </CardContent></Card>
 
       {error && <div className="bg-red-500/10 border border-red-500/20 rounded-md p-3 text-sm text-red-400">{error}</div>}

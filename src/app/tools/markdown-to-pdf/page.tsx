@@ -237,15 +237,13 @@ export default function MarkdownToPdfPage() {
       </div>
 
       <Card><CardContent className="p-8">
-        <div className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors mb-4 ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
+        <label className={`block border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer mb-4 ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
           onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
-          <p className="text-sm text-muted-foreground">Drag & drop a .md file here, or</p>
-          <label className="cursor-pointer">
-            <Button variant="secondary" size="sm" className="mt-2" type="button">Upload .md File</Button>
-            <input type="file" accept=".md,.markdown,.txt" className="hidden" onChange={(e) => handleFile(e.target.files)} />
-          </label>
-        </div>
+          <p className="text-sm text-muted-foreground">Drag & drop a .md file here, or click to browse</p>
+          <span className="inline-block mt-2 px-3 py-1.5 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Upload .md File</span>
+          <input type="file" accept=".md,.markdown,.txt" className="hidden" onChange={(e) => handleFile(e.target.files)} />
+        </label>
         <textarea
           value={markdown}
           onChange={(e) => { setMarkdown(e.target.value); setPdfUrl(null); }}

@@ -127,8 +127,8 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
       {/* Drop Zone */}
       <Card>
         <CardContent className="p-8">
-          <div
-            className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+          <label
+            className={`block border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${
               dragOver
                 ? "border-primary bg-primary/5"
                 : "border-muted-foreground/25 hover:border-muted-foreground/50"
@@ -146,19 +146,17 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
             <p className="text-sm text-muted-foreground mt-1">
               or click to browse
             </p>
-            <label className="cursor-pointer">
-              <Button variant="secondary" className="mt-4" type="button">
-                Select Files
-              </Button>
-              <input
-                  type="file"
-                  accept=".jpg,.jpeg"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => handleFiles(e.target.files)}
-                />
-              </label>
-          </div>
+            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">
+              Select Files
+            </span>
+            <input
+              type="file"
+              accept=".jpg,.jpeg"
+              multiple
+              className="hidden"
+              onChange={(e) => handleFiles(e.target.files)}
+            />
+          </label>
         </CardContent>
       </Card>
 

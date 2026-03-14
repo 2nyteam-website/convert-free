@@ -116,18 +116,22 @@ export default function ImageResizerPage() {
       </div>
 
       <Card><CardContent className="p-8">
-        <div className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
-          onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
-          {file ? (
-            <div><p className="font-medium">{file.name}</p><p className="text-sm text-muted-foreground">{originalDimensions.width} × {originalDimensions.height} — {formatSize(file.size)}</p>
-              <Button variant="ghost" size="sm" className="mt-2" onClick={clear}>Remove</Button></div>
-          ) : (
-            <><p className="text-lg font-medium">Drag & drop an image here</p><p className="text-sm text-muted-foreground mt-1">JPG, PNG, or WebP</p>
-              <label className="cursor-pointer"><Button variant="secondary" className="mt-4" type="button">Select File</Button>
-                <input type="file" accept=".jpg,.jpeg,.png,.webp" className="hidden" onChange={(e) => handleFile(e.target.files)} /></label></>
-          )}
-        </div>
+        {file ? (
+          <div className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
+            onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
+            <p className="font-medium">{file.name}</p><p className="text-sm text-muted-foreground">{originalDimensions.width} × {originalDimensions.height} — {formatSize(file.size)}</p>
+            <Button variant="ghost" size="sm" className="mt-2" onClick={(e) => { e.preventDefault(); clear(); }}>Remove</Button>
+          </div>
+        ) : (
+          <label className={`block border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-muted-foreground/50"}`}
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
+            onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
+            <p className="text-lg font-medium">Drag & drop an image here</p><p className="text-sm text-muted-foreground mt-1">JPG, PNG, or WebP</p>
+            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Select File</span>
+            <input type="file" accept=".jpg,.jpeg,.png,.webp" className="hidden" onChange={(e) => handleFile(e.target.files)} />
+          </label>
+        )}
       </CardContent></Card>
 
       {file && (
