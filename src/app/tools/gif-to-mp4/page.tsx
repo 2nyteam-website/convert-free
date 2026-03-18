@@ -41,14 +41,18 @@ const handleFile = useCallback((files: FileList | null) => {
 
     try {
       const { FFmpeg } = await import("@ffmpeg/ffmpeg");
-      const { fetchFile } = await import("@ffmpeg/util");
+      const { fetchFile, toBlobURL } = await import("@ffmpeg/util");
 
       const ffmpeg = new FFmpeg();
       ffmpeg.on("progress", ({ progress: p }) => {
         setProgress(`Converting... ${Math.round(p * 100)}%`);
       });
 
-      await ffmpeg.load();
+      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+      await ffmpeg.load({
+        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
+      });
       setProgress("Processing GIF...");
 
       await ffmpeg.writeFile("input.gif", await fetchFile(file));
