@@ -8,7 +8,7 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { toBlobURL } from "@ffmpeg/util";
 
 export default function Mp4ToGifPage() {
-  const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
   const [file, setFile] = useState<File | null>(null);
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const [converting, setConverting] = useState(false);
@@ -79,7 +79,12 @@ export default function Mp4ToGifPage() {
       setGifUrl(URL.createObjectURL(blob));
       setProgress("Done!");
     } catch (err) {
-      setProgress("Error: conversion failed. Try a shorter video or different format.");
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("SharedArrayBuffer") || msg.includes("Cannot find module")) {
+        setProgress("Error: Your browser doesn't support this feature. Try Chrome or Edge (latest version).");
+      } else {
+        setProgress("Error: Conversion failed. Try a shorter video (under 15 seconds) or smaller file.");
+      }
       console.error(err);
     }
 
