@@ -121,7 +121,7 @@ export default function GifToMp4Page() {
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
             onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
             <p className="text-lg font-medium">Drag & drop a GIF here</p>
-            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Select GIF</span>
+            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer">Select GIF</span>
             <input type="file" accept=".gif" className="hidden" onChange={(e) => handleFile(e.target.files)} />
           </label>
         )}

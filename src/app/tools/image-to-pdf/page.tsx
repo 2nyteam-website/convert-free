@@ -84,7 +84,7 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
           onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}>
           <p className="text-lg font-medium">Drag & drop images here</p>
           <p className="text-sm text-muted-foreground mt-1">Each image becomes a PDF page</p>
-          <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Select Images</span>
+          <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer">Select Images</span>
           <input type="file" accept=".jpg,.jpeg,.png,.webp" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} />
         </label>
       </CardContent></Card>

@@ -143,7 +143,7 @@ export default function Mp4ToGifPage() {
             onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
             <p className="text-lg font-medium">Drag & drop a video here</p>
             <p className="text-sm text-muted-foreground mt-1">MP4, WebM, or MOV</p>
-            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Select Video</span>
+            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer">Select Video</span>
             <input type="file" accept=".mp4,.webm,.mov" className="hidden" onChange={(e) => handleFile(e.target.files)} />
           </label>
         )}

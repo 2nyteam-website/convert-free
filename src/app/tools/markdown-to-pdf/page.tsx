@@ -241,7 +241,7 @@ export default function MarkdownToPdfPage() {
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
           onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files); }}>
           <p className="text-sm text-muted-foreground">Drag & drop a .md file here, or click to browse</p>
-          <span className="inline-block mt-2 px-3 py-1.5 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Upload .md File</span>
+          <span className="inline-block mt-2 px-3 py-1.5 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer">Upload .md File</span>
           <input type="file" accept=".md,.markdown,.txt" className="hidden" onChange={(e) => handleFile(e.target.files)} />
         </label>
         <textarea

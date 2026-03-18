@@ -187,7 +187,7 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
             <p className="text-sm text-muted-foreground mt-1">
               JPG, PNG, or WebP
             </p>
-            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">
+            <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer">
               Select Files
             </span>
             <input

@@ -106,7 +106,7 @@ const handleFiles = useCallback((newFiles: FileList | null) => {
           onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}>
           <p className="text-lg font-medium">Drag & drop HEIC files here</p>
           <p className="text-sm text-muted-foreground mt-1">iPhone photos (.heic, .heif)</p>
-          <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80">Select Files</span>
+          <span className="inline-block mt-4 px-4 py-2 text-sm font-medium rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer">Select Files</span>
           <input type="file" accept=".heic,.heif" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} />
         </label>
       </CardContent></Card>
